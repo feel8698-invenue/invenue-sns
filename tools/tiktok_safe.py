@@ -4,7 +4,9 @@ import sys, os
 from PIL import Image
 def make(insta_dir, tiktok_dir):
     os.makedirs(tiktok_dir, exist_ok=True)
-    for i in range(1, 7):
+    import glob
+    n = len(glob.glob(f'{insta_dir}/*.jpg'))
+    for i in range(1, n+1):
         im = Image.open(f'{insta_dir}/{i}.jpg').convert('RGB')
         W, H = im.size
         top = im.getpixel((W//2, 2)); bot = im.getpixel((W//2, H-3))

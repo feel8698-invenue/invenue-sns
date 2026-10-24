@@ -49,6 +49,12 @@ EP = {
    mdesc='귀 뒤에서 쇄골과 가슴뼈까지 비스듬히 이어진 목 앞 근육', mlong='고개를 앞으로 빼고 오래 있으면 쉽게 뭉쳐요.',
    steps=['의자에 <b class="g">허리 펴고</b> 앉아요','한 손으로 반대쪽 <b class="g">쇄골</b>을 살짝 눌러요','고개를 누른 쪽 <b class="g">반대로</b> 돌려요','턱을 <b class="g">천천히 위로</b> 들어요','<b class="g">20초</b> 후 반대쪽도 해요'],
    amount='좌우 20초씩<br>2~3번', sub='틈날 때마다 해 주세요', c1='쇄골은 세게 누르지 않기', type='스트레칭'),
+13: dict(muscle='대퇴사두근', name='폼롤러 대퇴사두근 풀기', q='계단 오르고 나면<br>허벅지 앞이 뻐근한가요?',
+   mdesc='골반에서 무릎뼈까지 허벅지 앞을 덮는 4갈래의 큰 근육', mlong='오래 앉아 있거나 많이 걸은 날 단단하게 굳기 쉬워요.',
+   steps=['매트에 엎드려 폼롤러를 <b class="g">허벅지 앞 위쪽</b>에 놓아요','<b class="g">팔꿈치</b>를 어깨 아래에 대고 몸을 <b class="g">일자</b>로 버텨요','팔로 밀고 당기며 <b class="g">무릎 위</b>까지 천천히 굴려요','뭉친 곳에서 <b class="g">5초</b> 멈추고 숨을 내쉬어요','<b class="g">무릎 바로 위</b>에서 멈추고 다시 위로 굴려요'],
+   causes=[('🪑','오래 앉아 있기','짧아진 채로 굳기 쉬워요'),('🥾','계단·등산·오래 서 있기','많이 쓰여 단단해지기 쉬워요'),('🏃','운동 후 풀어주지 않기','뭉친 채로 남기 쉬워요')],
+   target=dict(fx=0.428, fy=0.598, rot=-12, label='타겟 · 양쪽 대퇴사두근', dir='← 무릎 쪽으로 굴리기'),
+   amount='30초씩<br>2~3번', sub='운동 전후나 자기 전에 해 보세요', c1='무릎뼈·골반뼈 위는 굴리지 않기', c2='허리가 아래로 처지지 않게', type='폼롤러'),
 }
 
 BASE = f"""<html lang="ko"><head><meta charset="utf-8"><style>
@@ -117,6 +123,14 @@ def slides(d, S, w, h, tk):
         out.append(page(w,h, band(0,top_h,'#f4f6f3',t2) + photo(top_h,'muscle.png') + band(top_h+w,h-top_h-w,'#f4f6f3',b2)))
     else:
         out.append(page(w,h, band(0,top_h+20,'#f4f6f3',t2) + photo(top_h+20,'muscle.png')))
+    # 3 causes
+    if d.get('causes'):
+        rows=''.join(f'<div style="display:flex;gap:{14*k}px;align-items:center;background:#fff;border-radius:14px;padding:{14*k}px {16*k}px;margin-top:{12*k}px"><div style="font-size:{30*k}px">{e}</div><div><div style="font-weight:900;font-size:{18*k}px">{a}</div><div style="font-size:{14.5*k}px;color:#4c5a52;margin-top:2px">{b}</div></div></div>' for e,a,b in d['causes'])
+        f3 = f'''<div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 {pad+8}px;background:#f4f6f3">
+<span class="badge" style="align-self:flex-start;font-size:{14*k}px;padding:4px 10px">주된 원인</span>
+<div style="font-weight:900;font-size:{25*k}px;line-height:1.3;margin-top:{8*k}px">{d["muscle"]}이<br>이럴 때 굳기 쉬워요</div>{rows}
+<div style="font-size:{13.5*k}px;color:#4c5a52;margin-top:{16*k}px;line-height:1.6">내 생활습관에 해당된다면<br>오늘의 1분 운동으로 풀어 주세요 👇</div></div>{logo(False,11*k)}'''
+        out.append(page(w,h,f3,'#f4f6f3'))
     # 3,4 steps
     for lbl, title, items, st, src in [('STEP 1~2','시작 자세',steps[:2],1,'start'),('STEP 3~5','따라 하기',steps[2:],3,'action')]:
         if tk:
@@ -136,7 +150,7 @@ def slides(d, S, w, h, tk):
 <div style="font-size:{15*k}px;color:#4c5a52;margin-top:{8*k}px">{d["sub"]}</div>
 <div style="background:#fff;border-radius:14px;padding:{14*k}px {16*k}px;margin-top:{24*k}px;font-size:{15*k}px;line-height:1.75">
 <div style="font-weight:900;color:#c0582c;margin-bottom:4px">⚠️ 이것만 지켜 주세요</div>
-· {d["c1"]}<br>· 반동 없이 천천히, 숨은 편하게<br>· 저리거나 불편하면 바로 멈추기</div></div>{logo(False,11*k)}'''
+· {d["c1"]}<br>{("· "+d["c2"]+"<br>") if d.get("c2") else ""}· 반동 없이 천천히, 숨은 편하게<br>· 저리거나 불편하면 바로 멈추기</div></div>{logo(False,11*k)}'''
     out.append(page(w,h,f5,'#f4f6f3'))
     # 6 shop
     f6 = f'''<div style="position:absolute;inset:0;background:#1d3a2c;color:#fff;display:flex;flex-direction:column;justify-content:center;padding:0 {pad+8}px">
