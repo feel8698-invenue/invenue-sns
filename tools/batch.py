@@ -42,7 +42,8 @@ EP = {
    amount='좌우 20초씩<br>2~3번', sub='틈날 때마다 해 주세요', c1='허리를 젖히지 말고 몸통만 돌리기', type='스트레칭'),
 9: dict(muscle='장요근', name='무릎 꿇고 장요근 스트레칭', q='오래 앉았다 일어나면<br>허리가 안 펴지나요?',
    mdesc='허리뼈 앞에서 골반을 지나 허벅지 안쪽으로 이어진 깊은 근육', mlong='오래 앉아 있으면 짧아진 채로 굳기 쉬워요.',
-   steps=['매트에 <b class="g">한쪽 무릎</b>을 꿇어요','앞발 무릎은 <b class="g">90도</b>로 세워요','허리를 펴고 손은 <b class="g">골반 위</b>에 얹어요','상체를 세운 채 <b class="g">골반을 앞으로</b> 밀어요','<b class="g">20초</b> 후 반대쪽도 해요'],
+   steps=['매트에 <b class="g">오른쪽 무릎</b>을 꿇어요','<b class="g">왼발</b>은 앞에 두고 무릎을 <b class="g">90도</b>로 세워요','허리를 펴고 손은 <b class="g">골반 위</b>에 얹어요','상체를 세운 채 <b class="g">골반을 앞으로</b> 밀어요','<b class="g">20초</b> 후 <b class="g">왼쪽 무릎</b>으로 바꿔 해요'],
+   target=dict(fx=0.52, fy=0.675, rot=-30, label='타겟 · 오른쪽 장요근', dir='골반 앞으로 →'),
    amount='좌우 20초씩<br>2~3번', sub='무릎 아래에 매트를 깔아 주세요', c1='허리를 뒤로 젖히지 않게', type='스트레칭'),
 10: dict(muscle='흉쇄유돌근', name='쇄골 누르고 흉쇄유돌근 스트레칭', q='스마트폰 볼 때<br>목이 앞으로 나와 있나요?',
    mdesc='귀 뒤에서 쇄골과 가슴뼈까지 비스듬히 이어진 목 앞 근육', mlong='고개를 앞으로 빼고 오래 있으면 쉽게 뭉쳐요.',
@@ -69,6 +70,19 @@ def step_rows(items, start, fs, gap):
 
 def logo(dark, size):
     return f'<div class="logo" style="right:16px;top:14px;color:{"#fff" if dark else "#1d2a23"};font-size:{size}px;opacity:.9">INVENUE STUDIO</div>'
+
+def target_marks(t, ox, ph):
+    """B안: 초록 점선 원 + 타겟 라벨 + 방향 라벨. ox=사진 왼쪽 시작, ph=사진 한 변(px, CSS)"""
+    if not t: return ''
+    cx, cy = ox + ph*t['fx'], ph*t['fy']
+    rw, rh = ph*0.17, ph*0.10
+    lx, ly = max(14, cx - ph*0.62), cy - ph*0.34
+    out = f'''<div style="position:absolute;left:{cx-rw/2}px;top:{cy-rh/2}px;width:{rw}px;height:{rh}px;border:2.5px dashed #3d7a52;border-radius:50%;background:rgba(61,122,82,.18);transform:rotate({t['rot']}deg)"></div>
+<svg style="position:absolute;left:0;top:0;width:{ox+ph}px;height:{ph}px;overflow:visible"><line x1="{lx+70}" y1="{ly+26}" x2="{cx-rw*0.35}" y2="{cy-rh*0.35}" stroke="#3d7a52" stroke-width="2"/></svg>
+<div style="position:absolute;left:{lx}px;top:{ly}px;background:#3d7a52;color:#fff;font-weight:700;font-size:14px;padding:6px 12px;border-radius:999px;white-space:nowrap">{t['label']}</div>'''
+    if t.get('dir'):
+        out += f'<div style="position:absolute;left:{cx+rw*0.2}px;top:{cy+rh*0.9}px;background:rgba(29,42,35,.85);color:#fff;font-weight:700;font-size:13px;padding:5px 11px;border-radius:999px;white-space:nowrap">{t["dir"]}</div>'
+    return out
 
 def wide(src, dst):
     im = Image.open(src).convert('RGB'); a = np.array(im); padl = 342
@@ -112,7 +126,8 @@ def slides(d, S, w, h, tk):
         else:
             thh = 70 + 39*len(items); ph = h - thh
             th = f'{logo(False,11)}<div style="padding:18px 22px 0"><span class="badge" style="font-size:13px;padding:4px 10px">{lbl}</span><span style="font-weight:900;font-size:23px;margin-left:8px;vertical-align:middle">{title}</span><div style="margin-top:6px">{step_rows(items, st, 16, 7)}</div></div>'
-            img = f'<div style="position:absolute;left:0;top:{thh}px;width:{w}px;height:{ph}px;overflow:hidden"><img src="file://{S}/{src}_wide.jpg" style="position:absolute;right:0;top:0;height:{ph}px"></div>'
+            marks = target_marks(d.get('target'), w-ph, ph) if src=='action' else ''
+            img = f'<div style="position:absolute;left:0;top:{thh}px;width:{w}px;height:{ph}px;overflow:hidden"><img src="file://{S}/{src}_wide.jpg" style="position:absolute;right:0;top:0;height:{ph}px">{marks}</div>'
             out.append(page(w,h, band(0,thh,'#f4f6f3',th) + img))
     # 5 amount
     f5 = f'''{logo(False,11*k)}<div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 {pad+8}px;background:#f4f6f3">
