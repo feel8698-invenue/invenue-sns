@@ -61,6 +61,12 @@ EP = {
    causes=[('🪑','오래 앉아 있기','짧아진 채로 굳기 쉬워요'),('🚗','운전·좌식 생활이 긴 날','무릎을 굽힌 채라 굳기 쉬워요'),('🏃','걷기·달리기 후 풀어주지 않기','뭉친 채로 남기 쉬워요')],
    target=dict(fx=0.47, fy=0.703, rot=29, label='타겟 · 오른쪽 햄스트링', dir='골반부터 앞으로 숙이기'),
    amount='좌우 20초씩<br>2~3번', sub='틈날 때마다 해 주세요', c1='등을 둥글게 말지 않기', c2='무릎 뒤가 저릴 만큼 숙이지 않기', type='스트레칭'),
+15: dict(muscle='광배근', name='세라밴드 광배근 당겨 내리기', q='등이 구부정하고<br>어깨가 앞으로 말리나요?',
+   mdesc='겨드랑이 아래에서 허리까지 등 옆을 넓게 덮는 큰 근육', mlong='구부정하게 오래 앉아 있으면 힘이 약해지기 쉬워요.',
+   steps=['의자에 <b class="g">허리 펴고</b> 앉아요','세라밴드를 <b class="g">어깨너비보다 넓게</b> 잡고 머리 위로 뻗어요','숨을 내쉬며 <b class="g">팔꿈치를 옆구리 쪽</b>으로 당겨 내려요','밴드가 <b class="g">가슴 앞</b>에 오면 <b class="g">2초</b> 멈춰요','천천히 다시 <b class="g">머리 위로</b> 올려요'],
+   causes=[('🪑','구부정하게 오래 앉아 있기','등 근육이 약해지기 쉬워요'),('📱','스마트폰·컴퓨터를 오래 보기','어깨가 앞으로 말리기 쉬워요'),('🙆','팔을 위로 쓸 일이 적은 생활','잘 쓰지 않아 약해지기 쉬워요')],
+   target=dict(fx=0.415, fy=0.462, rot=92, rw=0.15, rh=0.075, extra=[dict(fx=0.578, fy=0.462, rot=88)], label='타겟 · 양쪽 광배근'),
+   amount='10번씩<br>2~3세트', sub='밴드가 없으면 수건을 당겨도 좋아요', c1='어깨가 귀 쪽으로 올라가지 않게', c2='허리를 뒤로 젖히지 않기', cverb='약해지기', cend='깨워', type='세라밴드'),
 }
 
 BASE = f"""<html lang="ko"><head><meta charset="utf-8"><style>
@@ -87,11 +93,14 @@ def target_marks(t, ox, ph):
     """B안: 초록 점선 원 + 타겟 라벨 + 방향 라벨. ox=사진 왼쪽 시작, ph=사진 한 변(px, CSS)"""
     if not t: return ''
     cx, cy = ox + ph*t['fx'], ph*t['fy']
-    rw, rh = ph*0.17, ph*0.10
+    rw, rh = ph*t.get('rw',0.17), ph*t.get('rh',0.10)
     lx, ly = max(14, cx - ph*0.62), cy - ph*0.34
     out = f'''<div style="position:absolute;left:{cx-rw/2}px;top:{cy-rh/2}px;width:{rw}px;height:{rh}px;border:2.5px dashed #3d7a52;border-radius:50%;background:rgba(61,122,82,.18);transform:rotate({t['rot']}deg)"></div>
 <svg style="position:absolute;left:0;top:0;width:{ox+ph}px;height:{ph}px;overflow:visible"><line x1="{lx+70}" y1="{ly+26}" x2="{cx-rw*0.35}" y2="{cy-rh*0.35}" stroke="#3d7a52" stroke-width="2"/></svg>
 <div style="position:absolute;left:{lx}px;top:{ly}px;background:#3d7a52;color:#fff;font-weight:700;font-size:14px;padding:6px 12px;border-radius:999px;white-space:nowrap">{t['label']}</div>'''
+    for ex in t.get('extra', []):
+        ecx, ecy = ox + ph*ex['fx'], ph*ex['fy']
+        out += f'''<div style="position:absolute;left:{ecx-rw/2}px;top:{ecy-rh/2}px;width:{rw}px;height:{rh}px;border:2.5px dashed #3d7a52;border-radius:50%;background:rgba(61,122,82,.18);transform:rotate({ex['rot']}deg)"></div>'''
     if t.get('dir'):
         out += f'<div style="position:absolute;left:{cx+rw*0.2}px;top:{cy+rh*0.9}px;background:rgba(29,42,35,.85);color:#fff;font-weight:700;font-size:13px;padding:5px 11px;border-radius:999px;white-space:nowrap">{t["dir"]}</div>'
     return out
@@ -134,8 +143,8 @@ def slides(d, S, w, h, tk):
         rows=''.join(f'<div style="display:flex;gap:{14*k}px;align-items:center;background:#fff;border-radius:14px;padding:{14*k}px {16*k}px;margin-top:{12*k}px"><div style="font-size:{30*k}px">{e}</div><div><div style="font-weight:900;font-size:{18*k}px">{a}</div><div style="font-size:{14.5*k}px;color:#4c5a52;margin-top:2px">{b}</div></div></div>' for e,a,b in d['causes'])
         f3 = f'''<div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:0 {pad+8}px;background:#f4f6f3">
 <span class="badge" style="align-self:flex-start;font-size:{14*k}px;padding:4px 10px">주된 원인</span>
-<div style="font-weight:900;font-size:{25*k}px;line-height:1.3;margin-top:{8*k}px">{d["muscle"]}이<br>이럴 때 굳기 쉬워요</div>{rows}
-<div style="font-size:{13.5*k}px;color:#4c5a52;margin-top:{16*k}px;line-height:1.6">내 생활습관에 해당된다면<br>오늘의 1분 운동으로 풀어 주세요 👇</div></div>{logo(False,11*k)}'''
+<div style="font-weight:900;font-size:{25*k}px;line-height:1.3;margin-top:{8*k}px">{d["muscle"]}이<br>이럴 때 {d.get("cverb","굳기")} 쉬워요</div>{rows}
+<div style="font-size:{13.5*k}px;color:#4c5a52;margin-top:{16*k}px;line-height:1.6">내 생활습관에 해당된다면<br>오늘의 1분 운동으로 {d.get("cend","풀어")} 주세요 👇</div></div>{logo(False,11*k)}'''
         out.append(page(w,h,f3,'#f4f6f3'))
     # 3,4 steps
     for lbl, title, items, st, src in [('STEP 1~2','시작 자세',steps[:2],1,'start'),('STEP 3~5','따라 하기',steps[2:],3,'action')]:
