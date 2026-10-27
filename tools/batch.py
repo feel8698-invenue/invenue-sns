@@ -73,6 +73,12 @@ EP = {
    causes=[('📱','스마트폰을 오래 내려다보기','목 옆이 굳기 쉬워요'),('💻','컴퓨터 앞에서 어깨 올리고 일하기','긴장한 채로 굳기 쉬워요'),('😮‍💨','얕은 숨·가슴으로만 숨쉬기','목 근육을 많이 써 굳기 쉬워요')],
    target=dict(fx=0.467, fy=0.253, rot=119, rw=0.11, rh=0.06, label='타겟 · 오른쪽 사각근', ly=-0.12, dir='고개는 왼쪽 어깨 쪽으로'),
    amount='좌우 20초씩<br>2~3번', sub='틈날 때마다 해 주세요', c1='어깨가 따라 올라가지 않게', c2='목을 뒤로 젖히지 않기', type='스트레칭'),
+17: dict(muscle='전완근', name='마사지볼 전완근 풀기', q='아래팔이 뻣뻣하다면?',
+   mdesc='팔꿈치에서 손목까지 아래팔을 감싸는 근육들', mlong='손으로 쥐고 누르는 일을 오래 하면 굳기 쉬워요.',
+   steps=['책상 앞 의자에 <b class="g">허리 펴고</b> 앉아요','<b class="g">오른손</b> 손바닥이 위로 오게 손등을 책상에 올려요','<b class="g">왼손</b>으로 마사지볼을 오른쪽 <b class="g">팔꿈치 아래 안쪽</b>에 대요','지그시 누르며 <b class="g">손목 쪽</b>으로 천천히 굴려요','뭉친 곳은 <b class="g">5초</b> 멈추고, <b class="g">30초</b> 후 왼팔도 해요'],
+   causes=[('📱','스마트폰을 오래 쥐고 보기','아래팔이 굳기 쉬워요'),('🖱️','마우스·키보드를 오래 쓰기','손목을 꺾은 채라 굳기 쉬워요'),('🧺','집안일·육아로 손을 많이 쓰기','많이 쓰여 뭉치기 쉬워요')],
+   target=dict(fx=0.318, fy=0.722, rot=100, rw=0.15, ex=0.295, ey=0.70, rh=0.05, label='타겟 · 오른쪽 전완근', ly=0.30, dir='볼을 손목 쪽으로 ↓', dfx=0.04, dfy=0.90),
+   amount='좌우 30초씩<br>2~3번', sub='일하는 틈틈이 해 보세요', c1='손목 뼈 위는 세게 누르지 않기', c2='어깨에 힘 빼고 편하게', type='마사지볼'),
 }
 
 BASE = f"""<html lang="ko"><head><meta charset="utf-8"><style>
@@ -102,13 +108,14 @@ def target_marks(t, ox, ph):
     rw, rh = ph*t.get('rw',0.17), ph*t.get('rh',0.10)
     lx, ly = max(14, cx - ph*0.62), max(12, cy - ph*t.get('ly',0.34))
     out = f'''<div style="position:absolute;left:{cx-rw/2}px;top:{cy-rh/2}px;width:{rw}px;height:{rh}px;border:2.5px dashed #3d7a52;border-radius:50%;background:rgba(61,122,82,.18);transform:rotate({t['rot']}deg)"></div>
-<svg style="position:absolute;left:0;top:0;width:{ox+ph}px;height:{ph}px;overflow:visible"><line x1="{lx+70}" y1="{ly+26}" x2="{cx-rw*0.35}" y2="{cy-rh*0.35}" stroke="#3d7a52" stroke-width="2"/></svg>
+<svg style="position:absolute;left:0;top:0;width:{ox+ph}px;height:{ph}px;overflow:visible"><line x1="{lx+70}" y1="{ly+26}" x2="{ox+ph*t['ex'] if 'ex' in t else cx-rw*0.35}" y2="{ph*t['ey'] if 'ey' in t else cy-rh*0.35}" stroke="#3d7a52" stroke-width="2"/></svg>
 <div style="position:absolute;left:{lx}px;top:{ly}px;background:#3d7a52;color:#fff;font-weight:700;font-size:14px;padding:6px 12px;border-radius:999px;white-space:nowrap">{t['label']}</div>'''
     for ex in t.get('extra', []):
         ecx, ecy = ox + ph*ex['fx'], ph*ex['fy']
         out += f'''<div style="position:absolute;left:{ecx-rw/2}px;top:{ecy-rh/2}px;width:{rw}px;height:{rh}px;border:2.5px dashed #3d7a52;border-radius:50%;background:rgba(61,122,82,.18);transform:rotate({ex['rot']}deg)"></div>'''
     if t.get('dir'):
-        out += f'<div style="position:absolute;left:{cx+rw*0.2}px;top:{cy+rh*0.9}px;background:rgba(29,42,35,.85);color:#fff;font-weight:700;font-size:13px;padding:5px 11px;border-radius:999px;white-space:nowrap">{t["dir"]}</div>'
+        dl, dt = (ox+ph*t['dfx'], ph*t['dfy']) if 'dfx' in t else (cx+rw*0.2, cy+rh*0.9)
+        out += f'<div style="position:absolute;left:{dl}px;top:{dt}px;background:rgba(29,42,35,.85);color:#fff;font-weight:700;font-size:13px;padding:5px 11px;border-radius:999px;white-space:nowrap">{t["dir"]}</div>'
     return out
 
 def wide(src, dst):
