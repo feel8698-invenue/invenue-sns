@@ -10,7 +10,7 @@ def make(insta_dir, tiktok_dir):
         im = Image.open(f'{insta_dir}/{i}.jpg').convert('RGB')
         W, H = im.size
         top = im.getpixel((W//2, 2)); bot = im.getpixel((W//2, H-3))
-        c = Image.new('RGB', (1080, 1920), top)
+        c = Image.new('RGB', (1080, 1920), bot if i == 1 else top)  # 1장(전후 대비 표지)은 아래 진녹색으로 채움
         pass  # 위아래 모두 위쪽 띠 색으로 통일
         c.paste(im, (0, (1920-H)//2))
         c.save(f'{tiktok_dir}/{i}.jpg', quality=93)

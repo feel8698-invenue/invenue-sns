@@ -67,6 +67,12 @@ EP = {
    causes=[('🪑','구부정하게 오래 앉아 있기','등 근육이 약해지기 쉬워요'),('📱','스마트폰·컴퓨터를 오래 보기','어깨가 앞으로 말리기 쉬워요'),('🙆','팔을 위로 쓸 일이 적은 생활','잘 쓰지 않아 약해지기 쉬워요')],
    target=dict(fx=0.415, fy=0.462, rot=92, rw=0.15, rh=0.075, extra=[dict(fx=0.578, fy=0.462, rot=88)], label='타겟 · 양쪽 광배근'),
    amount='10번씩<br>2~3세트', sub='밴드가 없으면 수건을 당겨도 좋아요', c1='어깨가 귀 쪽으로 올라가지 않게', c2='허리를 뒤로 젖히지 않기', cverb='약해지기', cend='깨워', type='세라밴드'),
+16: dict(muscle='사각근', name='의자 잡고 사각근 스트레칭', q='목이 뻣뻣하다면?',
+   mdesc='목 옆에서 쇄골 위 갈비뼈까지 이어진 목 옆 근육', mlong='고개를 숙이고 오래 있으면 굳기 쉬워요.',
+   steps=['의자에 <b class="g">허리 펴고</b> 앉아요','<b class="g">오른손</b>으로 의자 옆을 잡아 <b class="g">오른쪽 어깨</b>를 내려요','고개를 <b class="g">왼쪽</b>으로 천천히 기울여요','턱을 <b class="g">살짝 들어</b> 오른쪽 목 옆을 늘려요','<b class="g">20초</b> 후 <b class="g">왼손</b>으로 잡고 반대쪽도 해요'],
+   causes=[('📱','스마트폰을 오래 내려다보기','목 옆이 굳기 쉬워요'),('💻','컴퓨터 앞에서 어깨 올리고 일하기','긴장한 채로 굳기 쉬워요'),('😮‍💨','얕은 숨·가슴으로만 숨쉬기','목 근육을 많이 써 굳기 쉬워요')],
+   target=dict(fx=0.467, fy=0.253, rot=119, rw=0.11, rh=0.06, label='타겟 · 오른쪽 사각근', ly=-0.12, dir='고개는 왼쪽 어깨 쪽으로'),
+   amount='좌우 20초씩<br>2~3번', sub='틈날 때마다 해 주세요', c1='어깨가 따라 올라가지 않게', c2='목을 뒤로 젖히지 않기', type='스트레칭'),
 }
 
 BASE = f"""<html lang="ko"><head><meta charset="utf-8"><style>
@@ -94,7 +100,7 @@ def target_marks(t, ox, ph):
     if not t: return ''
     cx, cy = ox + ph*t['fx'], ph*t['fy']
     rw, rh = ph*t.get('rw',0.17), ph*t.get('rh',0.10)
-    lx, ly = max(14, cx - ph*0.62), cy - ph*0.34
+    lx, ly = max(14, cx - ph*0.62), max(12, cy - ph*t.get('ly',0.34))
     out = f'''<div style="position:absolute;left:{cx-rw/2}px;top:{cy-rh/2}px;width:{rw}px;height:{rh}px;border:2.5px dashed #3d7a52;border-radius:50%;background:rgba(61,122,82,.18);transform:rotate({t['rot']}deg)"></div>
 <svg style="position:absolute;left:0;top:0;width:{ox+ph}px;height:{ph}px;overflow:visible"><line x1="{lx+70}" y1="{ly+26}" x2="{cx-rw*0.35}" y2="{cy-rh*0.35}" stroke="#3d7a52" stroke-width="2"/></svg>
 <div style="position:absolute;left:{lx}px;top:{ly}px;background:#3d7a52;color:#fff;font-weight:700;font-size:14px;padding:6px 12px;border-radius:999px;white-space:nowrap">{t['label']}</div>'''

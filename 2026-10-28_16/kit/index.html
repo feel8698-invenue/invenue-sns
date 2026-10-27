@@ -1,0 +1,322 @@
+<title>인베뉴 포스팅 키트</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&family=Black+Han+Sans&display=swap">
+<style>
+/* layout: one narrow phone column, sticky platform tabs, each block = text + one big copy button */
+:root{
+  --bg:#f4f6f3; --card:#ffffff; --fg:#1d2a23; --muted:#5f6e66; --line:#dde4df;
+  --accent:#2e7d5a; --accent-fg:#ffffff; --soft:#e6f1ea; --carrot:#e8743b; --naver:#1fae5a; --kakao:#f2cd00;
+  --display:"Black Han Sans","IBM Plex Sans KR",system-ui,sans-serif;
+  --body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121815; --card:#1b2420; --fg:#e7eee9; --muted:#9aaba2; --line:#2c3833;
+  --accent:#4fb385; --accent-fg:#0d1511; --soft:#203029; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121815; --card:#1b2420; --fg:#e7eee9; --muted:#9aaba2; --line:#2c3833;
+  --accent:#4fb385; --accent-fg:#0d1511; --soft:#203029; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 60px}
+header .ep{font-size:13px;letter-spacing:.06em;color:var(--muted);font-weight:600}
+header h1{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.2;margin:4px 0 6px;text-wrap:balance}
+header p{margin:0;color:var(--muted);font-size:14px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);display:flex;gap:8px;padding:12px 0;margin-top:14px;border-bottom:1px solid var(--line);overflow-x:auto}
+nav a{flex:none;text-decoration:none;color:var(--fg);font-weight:600;font-size:14px;padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+nav a:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+section{padding-top:26px;display:flex;flex-direction:column;gap:14px;scroll-margin-top:70px}
+h2{margin:0;font-size:19px;display:flex;align-items:center;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%;flex:none}
+.hint{margin:0;color:var(--muted);font-size:14px}
+.photos{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media (max-width:520px){.photos{grid-template-columns:repeat(2,1fr)}}
+.photos figure{margin:0;display:flex;flex-direction:column;gap:4px;min-width:0}
+.photos img{width:100%;border-radius:10px;border:1px solid var(--line);display:block;background:var(--card)}
+.photos figcaption{font-size:12px;color:var(--muted);text-align:center}
+.block{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.block .label{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.text{white-space:pre-wrap;word-break:break-word;font-size:15px;line-height:1.65;max-height:220px;overflow:auto;background:var(--bg);border-radius:10px;padding:12px;user-select:text}
+.text.short{max-height:none}
+button.copy{appearance:none;border:0;border-radius:12px;background:var(--accent);color:var(--accent-fg);font:700 16px var(--body);padding:14px;cursor:pointer;width:100%}
+button.copy.done{background:var(--soft);color:var(--accent)}
+button.save{appearance:none;border:1px solid var(--accent);background:var(--card);color:var(--accent);font:700 13px var(--body);padding:8px 4px;border-radius:10px;cursor:pointer;width:100%}
+button.save.done{background:var(--soft)}
+.steps{margin:0;padding-left:20px;color:var(--muted);font-size:14px}
+@media (prefers-reduced-motion:no-preference){button.copy{transition:background .2s}}
+.tbar{display:flex;gap:8px}
+.tbar span{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--soft);color:var(--accent)}
+button.saveall{appearance:none;border:0;border-radius:12px;background:var(--fg);color:var(--bg);font:700 15px var(--body);padding:12px;cursor:pointer;width:100%}
+.photos.tall{grid-template-columns:repeat(4,1fr)}
+.check{margin:0;padding:12px 14px 12px 34px;background:var(--card);border:1px solid var(--line);border-radius:14px;font-size:14px;color:var(--fg)}
+.check li{margin:2px 0}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="ep">오늘의 1분 운동 · 16편 · 사각근 · 맨몸</div>
+  <h1>의자 잡고 사각근 스트레칭</h1>
+  <p>올릴 곳 탭을 누르고, 위에서부터 순서대로 사진 저장 → 글 복사 → 붙여 넣기 하면 끝이에요.</p>
+</header>
+<nav aria-label="올릴 곳">
+  <a href="#daangn">🥕 당근</a><a href="#blog">📝 블로그</a><a href="#kakao">💬 카톡</a><a href="#insta">📸 인스타</a><a href="#tiktok">🎵 틱톡</a>
+</nav>
+<p class="hint" id="save-hint" style="margin-top:12px"></p>
+<div id="sections"></div>
+</div>
+<script>
+const LINK="https://invenu-studio.feel8698.workers.dev/book";
+const T={
+"d-title":"📌 오늘의 1분 운동 | 목이 뻣뻣하다면? 사각근 스트레칭 🧘‍♀️",
+"d-body":`목이 뻣뻣하고 묵직하신가요?
+
+오늘의 1분 운동은
+'의자 잡고 사각근 스트레칭'이에요 😊
+
+목 옆에서 쇄골 위까지 이어진 근육,
+바로 '사각근'이에요.
+
+━━━━━━━━━━
+
+📍 주된 원인
+사각근은 이럴 때 굳기 쉬워요
+
+📱 스마트폰을 오래 내려다보기
+→ 목 옆이 굳기 쉬워요
+
+💻 컴퓨터 앞에서 어깨 올리고 일하기
+→ 긴장한 채로 굳기 쉬워요
+
+😮‍💨 얕은 숨·가슴으로만 숨쉬기
+→ 목 근육을 많이 써 굳기 쉬워요
+
+내 생활습관에 해당된다면
+오늘 운동으로 목 옆을 시원하게 풀어 주세요!
+
+━━━━━━━━━━
+
+📌 오늘의 1분 운동
+'의자 잡고 사각근 스트레칭'
+
+1. 의자에 허리 펴고 앉아요 🪑
+2. 오른손으로 의자 옆을 잡아 오른쪽 어깨를 내려요
+3. 고개를 왼쪽으로 천천히 기울여요
+4. 턱을 살짝 들어 오른쪽 목 옆을 늘려요
+5. 20초 후 왼손으로 잡고 반대쪽도 해요 🔄
+
+👉 좌우 20초씩, 2~3번!
+목 옆이 쭉 늘어나는 느낌이면 성공이에요 😊
+
+━━━━━━━━━━
+
+그런데 오래 굳어 있던 목과 어깨는
+혼자 풀기가 쉽지 않죠.
+
+인베뉴 스튜디오에서는
+
+✔ 불편한 곳과 평소 생활 습관을
+   꼼꼼히 여쭤보고
+
+✔ 목과 어깨 주변 뭉친 곳을
+   손으로 부드럽게 풀어 드리고
+
+✔ 미세전류로 약해진 속근육까지
+   깨우고 강화해 드려요 ⚡
+
+풀고 → 깨우고 → 강화하는 1:1 전신케어,
+하루 1시간만 저에게 맡겨 주세요 😊
+
+━━━━━━━━━━
+
+⚠️ 어깨가 따라 올라가지 않게,
+목을 뒤로 젖히지 않게 해 주세요.
+저리거나 불편하면 바로 멈춰 주세요.
+
+💚 단골 맺으시면
+첫 방문 30% 할인 쿠폰을 드려요 🎁
+
+📍 울산 남구 중앙로204번길 9, 3층
+
+👇 예약하기
+${LINK}`,
+"b-title":"🧘‍♀️ 목이 뻣뻣하다면? 오늘의 1분 운동 의자 잡고 사각근 스트레칭",
+"b-body":`📷 [사진 ① 표지]
+
+하루 종일 스마트폰과 컴퓨터를 보다 보면
+목이 뻣뻣하고 묵직해질 때가 많죠 🙋‍♀️
+
+오늘은 목 옆 근육 '사각근'을
+의자에서 1분 만에 늘려 볼게요.
+
+━━━━━━━━━━
+
+📍 사각근, 어디에 있을까요?
+
+목 옆, 귀 아래쪽에서 시작해
+쇄골 바로 위 첫 번째 갈비뼈까지
+비스듬히 이어진 3개의 근육이에요.
+
+고개를 옆으로 기울이거나
+숨을 크게 들이쉴 때도 함께 쓰여요.
+
+📷 [사진 ② 운동 부위]
+
+━━━━━━━━━━
+
+📝 이런 습관, 있으신가요? (주된 원인)
+
+✅ 스마트폰을 오래 내려다보기
+→ 목 옆이 굳기 쉬워요.
+
+✅ 컴퓨터 앞에서 어깨를 올린 채 일하기
+→ 긴장한 채로 굳기 쉬워요.
+
+✅ 얕은 숨, 가슴으로만 숨쉬기
+→ 목 근육을 많이 써서 굳기 쉬워요.
+
+📷 [사진 ③ 주된 원인]
+
+━━━━━━━━━━
+
+📌 오늘의 1분 운동
+'의자 잡고 사각근 스트레칭'
+
+1. 의자에 허리 펴고 앉아요 🪑
+2. 오른손으로 의자 옆을 잡아 오른쪽 어깨를 내려요
+3. 고개를 왼쪽으로 천천히 기울여요
+4. 턱을 살짝 들어 오른쪽 목 옆을 늘려요
+5. 20초 후 왼손으로 잡고 반대쪽도 해요 🔄
+
+👉 좌우 20초씩, 2~3번!
+의자를 잡은 쪽 어깨가 따라 올라가지 않게,
+목은 뒤로 젖히지 않는 게 포인트예요.
+
+📷 [사진 ④ 운동 카드]
+
+━━━━━━━━━━
+
+💚 혼자 풀기 어렵다면
+
+인베뉴 스튜디오에서 도와드려요.
+
+✔ 평소 생활 습관과 불편한 곳을 꼼꼼히 여쭤보고
+✔ 목과 어깨 주변을 손으로 부드럽게 풀어 드리고
+✔ 미세전류로 약해진 속근육까지 깨우고 강화해 드려요 ⚡
+
+풀고 → 깨우고 → 강화하는 1:1 전신케어,
+하루 1시간만 저에게 맡겨 주세요 😊
+
+⚠️ 운동 중 저리거나 어지러우면
+무리하지 말고 바로 멈춰 주세요.
+
+📍 울산 남구 중앙로204번길 9, 3층 (계단 이용)
+🕙 연중무휴 10:00~
+　　(마지막 예약 화·목 18:00 / 그 외 20:00)
+🎁 첫 방문 시 모든 관리 30% 할인!
+📅 예약: 아래 사진을 누르시면 링크연결됩니다 👇
+
+📷 [예약 사진 · 링크 걸기]`,
+"link":LINK,
+"k-title":"📌 오늘의 1분 운동 | 목이 뻣뻣하다면? 🧘‍♀️",
+"k-body":`목이 뻣뻣하고 묵직하신가요? 🧘‍♀️
+
+📍 목 옆 사각근은 이럴 때 굳기 쉬워요
+📱 스마트폰을 오래 내려다보기
+💻 컴퓨터 앞에서 어깨 올리고 일하기
+😮‍💨 얕은 숨·가슴으로만 숨쉬기
+
+의자에서 1분만 늘려 주세요!
+
+1. 의자에 허리 펴고 앉기
+2. 오른손으로 의자 옆 잡고 어깨 내리기
+3. 고개를 왼쪽으로 천천히 기울이기
+4. 턱을 살짝 들어 오른쪽 목 옆 늘리기
+5. 20초 후 반대쪽도
+
+👉 좌우 20초씩, 2~3번 🔄
+⚠️ 어깨가 따라 올라가지 않게
+
+혼자 풀기 어려운 목·어깨 뭉침은
+인베뉴 스튜디오 1:1 전신케어로 도와드려요 💚
+
+📅 예약하기
+${LINK}`,
+"s-body":`목이 뻣뻣하다면? 🧘‍♀️
+오늘의 1분 운동은 「의자 잡고 사각근 스트레칭」이에요.
+
+📍 주된 원인 — 이럴 때 굳기 쉬워요
+📱 스마트폰을 오래 내려다보기
+💻 컴퓨터 앞에서 어깨 올리고 일하기
+😮‍💨 얕은 숨·가슴으로만 숨쉬기
+
+✔️ 의자에 허리 펴고 앉기
+✔️ 오른손으로 의자 옆 잡고 어깨 내리기
+✔️ 고개를 왼쪽으로 천천히 기울이기
+✔️ 턱을 살짝 들어 오른쪽 목 옆 늘리기
+⏱ 좌우 20초씩 2~3번
+
+⚠️ 어깨가 따라 올라가지 않게, 목은 뒤로 젖히지 않기!
+📌 저장해 두고 매일 1분만 해 보세요.
+
+울산 남구 1:1 전신케어 인베뉴 스튜디오
+#오늘의1분운동 #목스트레칭 #사각근 #거북목 #목뻐근 #사무실스트레칭 #울산 #울산남구 #신정동 #삼산동 #울산전신케어 #울산바디케어 #인베뉴스튜디오`
+};
+
+T["tk-title"]="목이 뻣뻣하다면? 의자 잡고 사각근 스트레칭 🧘‍♀️";
+const K=['1.jpg','2.jpg','3.jpg','4.jpg'], KC=['① 표지','② 운동 부위','③ 주된 원인','④ 운동 카드'];
+const I=[1,2,3,4,5,6,7].map(n=>'i'+n+'.jpg'), TK=[1,2,3,4,5,6,7].map(n=>'t'+n+'.jpg');
+const S=[
+ {id:'daangn',name:'당근 소식',color:'var(--carrot)',tags:['사진 4장','제목','본문'],
+  steps:['사진 ①②③④ 순서로 첨부','제목·본문 붙여 넣기','"첫방문 30%할인" 쿠폰 연결'],
+  photos:K,caps:KC,fn:'당근',blocks:[['제목','d-title',1],['본문','d-body']]},
+ {id:'blog',name:'네이버 블로그',color:'var(--naver)',tags:['사진 4장 + 예약 사진','제목','본문','링크'],
+  steps:['본문을 붙여 넣고 📷 표시 자리에 사진 ①~④를 넣어요','맨 아래 예약 사진을 넣고, 사진에 예약 링크를 걸어요','발행할 때 검색허용 확인'],
+  photos:K,caps:KC,fn:'블로그',blocks:[['제목','b-title',1],['본문','b-body'],['예약 사진에 걸 링크','link',1]]},
+ {id:'kakao',name:'카카오톡 채널 소식',color:'var(--kakao)',tags:['사진 3장','제목','본문'],
+  steps:['사진 ① ③ ④ 세 장 첨부','제목·본문 붙여 넣기'],
+  photos:[K[0],K[2],K[3]],caps:[KC[0],KC[2],KC[3]],fn:'카톡',blocks:[['제목','k-title',1],['본문','k-body']]},
+ {id:'insta',name:'인스타그램',color:'#c13584',tags:['사진 7장 (4:5)','본문'],
+  steps:['+ → 게시물 → 사진 1~7번을 순서대로 선택(여러 장)','본문 붙여 넣기 (링크는 프로필에 있으니 따로 안 넣어요)','고급 설정에서 "AI 정보 표시"(AI 생성) 켜기 → 공유'],
+  photos:I,caps:I.map((_,i)=>(i+1)+'번'),fn:'인스타',blocks:[['본문','s-body']]},
+ {id:'tiktok',name:'틱톡',color:'#111',tags:['세로 사진 7장','제목','본문'],
+  steps:['+ → 사진 모드 → 틱톡용 1~7번 순서대로 선택','추천 음악 하나 고르기','제목·본문 붙여 넣기 → 게시'],
+  photos:TK,caps:TK.map((_,i)=>(i+1)+'번'),fn:'틱톡',blocks:[['제목','tk-title',1],['본문','s-body']]}
+];
+const root=document.getElementById('sections');
+for(const x of S){
+  const sec=document.createElement('section'); sec.id=x.id;
+  let h=`<h2><span class="dot" style="background:${x.color}"></span>${x.name}</h2><div class="tbar">${x.tags.map(t=>`<span>${t}</span>`).join('')}</div><ol class="check">${x.steps.map(t=>`<li>${t}</li>`).join('')}</ol>`;
+  h+=`<div class="photos">${x.photos.map((p,i)=>`<figure><img src="${p}" alt="${x.name} 사진 ${x.caps[i]}" loading="lazy"><figcaption>${x.caps[i]}</figcaption><button class="save" data-img="${p}" data-name="인베뉴16편_${x.fn}_${i+1}.jpg" hidden>사진 저장</button></figure>`).join('')}</div><button class="saveall" hidden>사진 ${x.photos.length}장 모두 저장</button>`;
+  for(const [lab,id,short] of x.blocks){
+    h+=`<div class="block"><div class="label">${lab}</div><div class="text${short?' short':''}" data-k="${id}"></div><button class="copy" data-target="${id}">${lab.split(' ')[0]} 복사</button></div>`;
+  }
+  sec.innerHTML=h; root.appendChild(sec);
+}
+document.querySelectorAll('[data-k]').forEach(el=>el.textContent=T[el.dataset.k]);
+document.querySelectorAll('button.copy').forEach(btn=>{
+  const label=btn.textContent;
+  btn.addEventListener('click',()=>{
+    const t=T[btn.dataset.target];
+    const ok=()=>{btn.textContent='✓ 복사됐어요';btn.classList.add('done');setTimeout(()=>{btn.textContent=label;btn.classList.remove('done')},1800)};
+    const fallback=()=>{const el=btn.parentElement.querySelector('.text');const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='선택됨 · 길게 눌러 복사';};
+    try{navigator.clipboard.writeText(t).then(ok,fallback);}catch(e){fallback();}
+  });
+});
+(async()=>{
+  let dl=null; try{dl = window.claude ? await window.claude.use("downloads") : null;}catch(e){}
+  const hint=document.getElementById('save-hint');
+  if(!dl){hint.innerHTML='사진은 <b>길게 눌러</b> 저장하세요.';return;}
+  hint.innerHTML='<b>[사진 저장]</b>이나 <b>[모두 저장]</b>을 누르면 저장 창이 떠요. 아이폰은 공유 화면에서 <b>"이미지 저장"</b>을 고르세요.';
+  const save=async b=>{
+    b.textContent='준비 중…';
+    try{const blob=await (await fetch(b.dataset.img)).blob(); await dl.save({filename:b.dataset.name,data:blob}); b.textContent='✓ 저장됨'; b.classList.add('done'); return true;}
+    catch(e){b.textContent=(e&&e.code==='declined')?'사진 저장':'다시 시도'; if(e&&(e.code==='unavailable'||e.code==='not_granted')){document.querySelectorAll('button.save,button.saveall').forEach(x=>x.hidden=true);hint.innerHTML='사진은 <b>길게 눌러</b> 저장하세요.';} return false;}
+  };
+  document.querySelectorAll('button.save').forEach(b=>{b.hidden=false;b.addEventListener('click',()=>save(b));});
+  document.querySelectorAll('button.saveall').forEach(a=>{a.hidden=false;a.addEventListener('click',async()=>{
+    const bs=[...a.previousElementSibling.querySelectorAll('button.save')]; a.textContent='저장 중…';
+    for(const b of bs){ if(!b.classList.contains('done')){ if(!await save(b)) break; } }
+    a.textContent= bs.every(b=>b.classList.contains('done'))?'✓ 모두 저장됨':'이어서 저장하기';
+  });});
+})();
+</script>
