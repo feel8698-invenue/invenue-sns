@@ -1,0 +1,6 @@
+{"before":"__DIR__/before.png",
+ "after":"__DIR__/after.png",
+ "bcx":0.5,"acx":0.5,"bgx":0.5,"bgy":0.74,"agx":0.5,"agy":0.74,
+ "blabel":"힘 빠진 아랫배","alabel":"1분 후 단단하게",
+ "title":"아랫배 힘이 약하다면?","sub":"누워서 한 다리 뻗기 복횡근 강화 · 매트에서 바로",
+ "out":"__DIR__/cover.jpg"}
